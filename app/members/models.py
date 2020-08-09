@@ -3,4 +3,4 @@ from django.db import models
 
 
 class User(AbstractUser):
-    pass
+    nickname = models.CharField('nickname', max_length=30, unique=True)
