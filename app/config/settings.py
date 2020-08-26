@@ -26,7 +26,7 @@ SECRET_KEY = 'u)s5%526az55#b#5wdo2c_djx--#*4k#in1zja&y%*ihs5j&j-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.amazonaws.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'ec2-54-180-31-130.ap-northeast-2.compute.amazonaws.com']
 
 
 AUTH_USER_MODEL = 'members.User'
