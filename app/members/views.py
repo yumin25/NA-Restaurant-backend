@@ -13,9 +13,13 @@ class CreateUserAPI(GenericAPIView):
     serializer_class = CreateUserSerializer
 
     def post(self, request, *args, **kwargs):
-        if len(request.data["username"]) < 4 or len(request.data["password"]) < 6:
+        if len(request.data["password"]) < 6:
             body = {"message": "short password"}
             return Response(body, status=status.HTTP_400_BAD_REQUEST)
+        if len(request.data["nickname"]) < 4 :
+            body = {"message": "short nickname. at least 4 characters are required."}
+            return Response(body, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
