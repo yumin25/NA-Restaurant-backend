@@ -9,8 +9,8 @@ class Restaurant(models.Model):
     restaurant_address = models.CharField(max_length=50, blank=True)
     business_hours = models.CharField(max_length=50, blank=True)
     restaurant_phone = models.CharField(max_length=50, blank=True)
-    image_1 = models.ImageField('image_1', upload_to = restaurant_id, blank=True)
-    image_2 = models.ImageField('image_2', upload_to= restaurant_id, blank=True)
+    image_1 = models.ImageField('image_1', upload_to = "restaurant/%Y/%m/%d", blank=True)
+    image_2 = models.ImageField('image_2', upload_to= "restaurant/%Y/%m/%d", blank=True)
 
 
     def publish(self):
@@ -18,3 +18,6 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.restaurant_name
+
+    def upload_to(instance, filename):
+        return ""
