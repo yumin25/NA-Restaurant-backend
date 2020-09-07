@@ -6,11 +6,11 @@ class Restaurant(models.Model):
     latitude = models.FloatField()
     longitude =models.FloatField()
     #grade = models.IntegerField(default=5)
-    restaurant_address = models.CharField(max_length=50, null=True)
-    business_hours = models.CharField(max_length=50, null=True)
-    restaurant_phone = models.CharField(max_length=50, null=True)
-    image_1 = models.ImageField('image_1', upload_to = "restaurant/%Y/%m/%d", null=True)
-    image_2 = models.ImageField('image_2', upload_to= "restaurant/%Y/%m/%d", null=True)
+    restaurant_address = models.CharField(max_length=50, null=True, blank=True)
+    business_hours = models.CharField(max_length=50, null=True, blank=True)
+    restaurant_phone = models.CharField(max_length=50, null=True, blank=True)
+    image_1 = models.ImageField('image_1', upload_to = "restaurant/%Y/%m/%d", null=True, blank=True)
+    image_2 = models.ImageField('image_2', upload_to= "restaurant/%Y/%m/%d", null=True, blank=True)
 
 
     def publish(self):
