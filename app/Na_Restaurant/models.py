@@ -1,4 +1,5 @@
 from django.db import models
+from members.models import User
 
 class Restaurant(models.Model):
     restaurant_id = models.AutoField(primary_key=True)
@@ -21,3 +22,9 @@ class Restaurant(models.Model):
 
     def upload_to(instance, filename):
         return ""
+
+class My_Map(models.Model):
+    my_map_id = models.AutoField(primary_key=True)
+    my_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    my_restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+

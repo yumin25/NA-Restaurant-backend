@@ -1,10 +1,16 @@
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import CreateRestaurantAPI, UpdateRestaurantAPI, DestroyRestaurantAPI, RetrieveRestaurantAPI
+from .views import CreateMyMapAPI
+from . import views
+from rest_framework.routers import DefaultRouter
+from django.urls import path, include
 
-urlpatterns = format_suffix_patterns([
-    url("^createrestaurant/$", CreateRestaurantAPI.as_view()),
-    url(r'^(?P<pk>\d+)/updaterestaurant/$', UpdateRestaurantAPI.as_view()),
-    url(r'^(?P<pk>\d+)/destroyrestaurant/$', DestroyRestaurantAPI.as_view()),
-    url(r'^(?P<pk>\d+)/retrieverestaurant/$', RetrieveRestaurantAPI.as_view()),
-])
+
+router = DefaultRouter()
+router.register(r'MyMap', views.MyMapSet)
+
+urlpatterns = [
+    path('', include(router.urls)),
+    path('restaurant', views.restaurant_create),
+    path('restaurant/<int:pk>', views.restaurant_detail),
+]
