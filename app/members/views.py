@@ -1,7 +1,7 @@
 from knox.auth import TokenAuthentication
 from knox.models import AuthToken
 
-from rest_framework import status, permissions
+from rest_framework import status, permissions, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
@@ -48,3 +48,13 @@ class LoginAPI(GenericAPIView):
                 "token": AuthToken.objects.create(user)[1],
             }
         )
+
+
+class UserAPI(generics.RetrieveAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
