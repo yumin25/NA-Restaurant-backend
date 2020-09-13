@@ -7,6 +7,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             'username',
+            'email',
+            'nickname',
         )
 
 
@@ -24,7 +26,6 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
 class LoginUserSerializer(serializers.Serializer):
     username = serializers.CharField()
-    #email = serializers.EmailField()
     password = serializers.CharField()
 
     def validate(self, data):

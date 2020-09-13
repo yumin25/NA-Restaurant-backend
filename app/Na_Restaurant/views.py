@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from rest_framework import status, permissions, generics
-from .serializers import RestaurantSerializer, MyMapSerializer
-from .models import Restaurant, My_Map
+from .serializers import RestaurantSerializer, MenuSerializer, MyMapSerializer
+from .models import Restaurant, My_Map, Menu
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
@@ -26,6 +26,16 @@ restaurant_detail = RestaurantSet.as_view({
     'patch' : 'partial_update',
     'delete' : 'destroy',
 })
+
+
+#메뉴 조회
+class RetrieveMenu(generics.RetrieveAPIView):
+
+    def get(self):
+        pass
+        #menu =Menu.objects.filter(menu_restaurant = )
+        #serializer = MenuSerializer()
+        #django-filter 알아보기
 
 #나의 맛집 지도 생성
 class CreateMyMapAPI(APIView):

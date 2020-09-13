@@ -23,6 +23,13 @@ class Restaurant(models.Model):
     def upload_to(instance, filename):
         return ""
 
+class Menu(models.Model):
+    menu_id = models.AutoField(primary_key=True)
+    menu_restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    menu_name = models.CharField(max_length=50, blank=False)
+    menu_price = models.CharField(max_length=50, blank=False)
+
+
 class My_Map(models.Model):
     my_map_id = models.AutoField(primary_key=True)
     my_id = models.ForeignKey(User, on_delete=models.CASCADE)

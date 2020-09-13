@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-from django.contrib.auth import authenticate
-from .models import Restaurant, My_Map
+from .models import Restaurant, Menu, My_Map
 from members.serializers import UserSerializer
 
 class RestaurantSerializer(serializers.ModelSerializer):
@@ -15,6 +14,16 @@ class MyMapRestaurantSerializer(serializers.ModelSerializer):
         fields = (
             'restaurant_name',
             'restaurant_address',
+        )
+
+class MenuSerializer(serializers.ModelSerializer):
+    menu_restaurant = MyMapRestaurantSerializer(read_only=True)
+
+    class Meta:
+        model = Menu
+        fields = (
+            'menu_name',
+            'menu_price',
         )
 
 class MyMapSerializer(ModelSerializer):
