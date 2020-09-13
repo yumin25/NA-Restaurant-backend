@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Restaurant, My_Map, Menu
+from .models import Restaurant, My_Map, Menu, Categories
 # Register your models here.
 
 class RestaurantAdmin(admin.ModelAdmin):
@@ -22,6 +22,11 @@ class Menu_Admin(admin.ModelAdmin):
     list_display = ['menu_id', 'menu_restaurant', 'menu_name', 'menu_price']
 
 
+class Category_Admin(admin.ModelAdmin):
+    list_display = ['restaurant', 'food_category', 'currency_category']
+
+
 admin.site.register(Restaurant, RestaurantAdmin)
 admin.site.register(My_Map, My_Map_Admin)
 admin.site.register(Menu, Menu_Admin)
+admin.site.register(Categories , Category_Admin)

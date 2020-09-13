@@ -13,4 +13,5 @@ urlpatterns = [
     path('restaurant', views.restaurant_create),
     path('restaurant/<int:pk>', views.restaurant_detail),
     path('mymap', RetrieveMyMapAPI.as_view()),
+    path('ca/<int:pk>', views.category_detail),
 ]

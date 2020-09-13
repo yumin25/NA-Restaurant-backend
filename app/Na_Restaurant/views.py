@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from rest_framework import status, permissions, generics
-from .serializers import RestaurantSerializer, MenuSerializer, MyMapSerializer
-from .models import Restaurant, My_Map, Menu
+from .serializers import RestaurantSerializer, MenuSerializer, MyMapSerializer, CategorySerializer
+from .models import Restaurant, My_Map, Menu, Categories
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
@@ -27,6 +27,16 @@ restaurant_detail = RestaurantSet.as_view({
     'delete' : 'destroy',
 })
 
+class CategorySet(ModelViewSet):
+    queryset = Categories.objects.all()
+    serializer_class = CategorySerializer
+
+category_detail = CategorySet.as_view({
+    'get' : 'retrieve',
+    'put' : 'update',
+    'patch' : 'partial_update',
+    'delete' : 'destroy',
+})
 
 #메뉴 조회
 class RetrieveMenu(generics.RetrieveAPIView):
@@ -52,3 +62,10 @@ class RetrieveMyMapAPI(generics.RetrieveAPIView):
         serializer_class = MyMapSerializer(mymap, many=True)
         print(request.user)
         return Response({"mymap":serializer_class.data})
+
+#카테고리 조회
+#class CategoryAPI(generics.RetrieveAPIView):
+
+    #def get(self, request):
+        #pass
+        #serializer_class = CategorySerializer(Categories, many=True)
