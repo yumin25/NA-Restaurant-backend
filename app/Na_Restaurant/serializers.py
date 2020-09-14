@@ -40,6 +40,5 @@ class MyMapSerializer(ModelSerializer):
     class Meta:
         model = My_Map
         fields = (
-            'my_map_id',
             'my_restaurant',
         )
