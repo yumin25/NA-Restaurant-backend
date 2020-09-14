@@ -35,8 +35,11 @@ class CategorySerializer(ModelSerializer):
 
 
 class MyMapSerializer(ModelSerializer):
-    my_id = UserSerializer(read_only=True)
+    #my_id = UserSerializer(read_only=True)
     my_restaurant = MyMapRestaurantSerializer(read_only=True)
     class Meta:
         model = My_Map
-        fields = '__all__'
+        fields = (
+            'my_map_id',
+            'my_restaurant',
+        )

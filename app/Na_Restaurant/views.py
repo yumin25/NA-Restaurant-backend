@@ -48,8 +48,14 @@ class RetrieveMenu(generics.RetrieveAPIView):
         #django-filter 알아보기
 
 #나의 맛집 지도 생성
-class CreateMyMapAPI(APIView):
-    pass
+class CreateMyMapAPI(generics.CreateAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    def post(self, request):
+        pass
+
 
 #나의 맛집 지도 조회
 class RetrieveMyMapAPI(generics.RetrieveAPIView):
@@ -61,7 +67,16 @@ class RetrieveMyMapAPI(generics.RetrieveAPIView):
         mymap = My_Map.objects.filter(my_id=request.user)
         serializer_class = MyMapSerializer(mymap, many=True)
         print(request.user)
-        return Response({"mymap":serializer_class.data})
+        return Response(serializer_class.data)
+
+
+#나의 맛집 지도 삭제
+class DestroyMyMapAPI(generics.DestroyAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+    queryset = My_Map.objects.all()
+    serializer_class = MyMapSerializer
 
 #카테고리 조회
 #class CategoryAPI(generics.RetrieveAPIView):
