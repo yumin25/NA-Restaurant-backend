@@ -17,11 +17,12 @@ class MyMapRestaurantSerializer(serializers.ModelSerializer):
         )
 
 class MenuSerializer(serializers.ModelSerializer):
-    menu_restaurant = MyMapRestaurantSerializer(read_only=True)
+    #menu_restaurant = MyMapRestaurantSerializer(read_only=True)
 
     class Meta:
         model = Menu
         fields = (
+            'menu_id',
             'menu_name',
             'menu_price',
         )
@@ -35,10 +36,15 @@ class CategorySerializer(ModelSerializer):
 
 
 class MyMapSerializer(ModelSerializer):
-    #my_id = UserSerializer(read_only=True)
     my_restaurant = MyMapRestaurantSerializer(read_only=True)
     class Meta:
         model = My_Map
         fields = (
             'my_restaurant',
         )
+
+class CreateMyMapSerializer(ModelSerializer):
+    my_id = UserSerializer(read_only=True)
+    class Meta:
+        model = My_Map
+        fields = '__all__'

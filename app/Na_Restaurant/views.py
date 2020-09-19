@@ -1,10 +1,9 @@
 from django.shortcuts import render
 from rest_framework import request
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from rest_framework import status, permissions, generics
-from .serializers import RestaurantSerializer, MenuSerializer, MyMapSerializer, CategorySerializer
+from .serializers import RestaurantSerializer, MenuSerializer, MyMapSerializer, CategorySerializer, CreateMyMapSerializer
 from .models import Restaurant, My_Map, Menu, Categories
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
@@ -31,6 +30,10 @@ class CategorySet(ModelViewSet):
     queryset = Categories.objects.all()
     serializer_class = CategorySerializer
 
+    def post(self, request):
+        restaurant_id = request.GET.get('restaurant_id', None)
+        Categories.objects.all()
+
 category_detail = CategorySet.as_view({
     'get' : 'retrieve',
     'put' : 'update',
@@ -38,24 +41,44 @@ category_detail = CategorySet.as_view({
     'delete' : 'destroy',
 })
 
+#메뉴 생성
+class CreateMenuAPI(generics.CreateAPIView):
+
+    def post(self, request, restaurant_id):
+        serializer_class = MenuSerializer(data=request.data)
+        if serializer_class.is_valid():
+            serializer_class.save(menu_restaurant_id = restaurant_id)
+            return Response(serializer_class.data, status.HTTP_201_CREATED)
+        return Response(serializer_class.errors, status.HTTP_400_BAD_REQUEST)
+
 #메뉴 조회
-class RetrieveMenu(generics.RetrieveAPIView):
+class RetrieveMenuAPI(generics.RetrieveAPIView):
+    queryset = Menu.objects.all()
+    serializer = MenuSerializer()
 
-    def get(self):
-        pass
-        #menu =Menu.objects.filter(menu_restaurant = )
-        #serializer = MenuSerializer()
-        #django-filter 알아보기
+    def get(self, request, restaurant_id):
+        queryset = Menu.objects.filter(menu_restaurant_id = restaurant_id)
+        serializer = MenuSerializer(queryset, many=True)
+        return Response(serializer.data)
 
-#나의 맛집 지도 생성
+#메뉴 삭제
+class DestroyMenuAPI(generics.DestroyAPIView):
+    queryset = Menu.objects.all()
+    serializer_class = MenuSerializer
+
+
+#나의 맛집 지도 생성 CreateMyMapSerializer
 class CreateMyMapAPI(generics.CreateAPIView):
     permission_classes = [
         permissions.IsAuthenticated,
     ]
 
     def post(self, request):
-        pass
-
+        serializer_class = CreateMyMapSerializer(data=request.data)
+        if serializer_class.is_valid():
+            serializer_class.save(my_id = self.request.user)
+            return Response(serializer_class.data, status.HTTP_201_CREATED)
+        return Response(serializer_class.errors, status.HTTP_400_BAD_REQUEST)
 
 #나의 맛집 지도 조회
 class RetrieveMyMapAPI(generics.RetrieveAPIView):
