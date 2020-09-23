@@ -1,10 +1,12 @@
 from django.db import models
 from members.models import User
+from django.utils import timezone
 
 
 class Restaurant(models.Model):
     restaurant_id = models.AutoField(primary_key=True)
     restaurant_name = models.CharField(max_length=50, blank=False)
+    restaurant_region = models.CharField(max_length=50, blank=False)
     latitude = models.FloatField()
     longitude =models.FloatField()
     #grade = models.IntegerField(default=5)
@@ -31,6 +33,9 @@ class Menu(models.Model):
     menu_name = models.CharField(max_length=50, blank=False)
     menu_price = models.CharField(max_length=50, blank=False)
 
+    def __str__(self):
+        return self.menu_name
+
 
 class My_Map(models.Model):
     my_map_id = models.AutoField(primary_key=True)
@@ -54,7 +59,7 @@ currency_categories = (
     ('n', 'nothing'),
 )
 
-class Categories(models.Model):
+class Category(models.Model):
     restaurant = models.OneToOneField(
         Restaurant,
         on_delete=models.CASCADE,
@@ -62,3 +67,30 @@ class Categories(models.Model):
     )
     food_category = models.CharField(max_length=1, choices=food_categories, default='e')
     currency_category = models.CharField(max_length=1, choices=currency_categories, default='n')
+
+
+class Review_Local(models.Model):
+    review_local_id = models.AutoField(primary_key=True)
+    review_local_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    review_local_menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    review_local_restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    review_local_title = models.CharField(max_length=50, blank=False)
+    review_local_text = models.TextField()
+    review_local_date =  models.DateTimeField(default=timezone.now)
+    review_local_star = models.IntegerField(default=5)
+
+
+class Review_Other(models.Model):
+    review_other_id = models.AutoField(primary_key=True)
+    review_other_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    review_other_menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    review_other_restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    review_other_title = models.CharField(max_length=50, blank=False)
+    review_other_text = models.TextField()
+    review_other_date =  models.DateTimeField(default=timezone.now)
+    review_other_star = models.IntegerField(default=5)
+
+
+class Franchise(models.Model):
+    franchise_id = models.AutoField(primary_key=True)
+    franchise_name = models.CharField(max_length=50, blank=False)

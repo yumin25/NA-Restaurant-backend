@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from rest_framework import status, permissions, generics
 from .serializers import RestaurantSerializer, MenuSerializer, MyMapSerializer, CategorySerializer, CreateMyMapSerializer
-from .models import Restaurant, My_Map, Menu, Categories
+from .models import Restaurant, My_Map, Menu, Category
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
@@ -27,12 +27,12 @@ restaurant_detail = RestaurantSet.as_view({
 })
 
 class CategorySet(ModelViewSet):
-    queryset = Categories.objects.all()
+    queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
     def post(self, request):
         restaurant_id = request.GET.get('restaurant_id', None)
-        Categories.objects.all()
+        Category.objects.all()
 
 category_detail = CategorySet.as_view({
     'get' : 'retrieve',

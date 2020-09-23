@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-from .models import Restaurant, Menu, My_Map, Categories
+from .models import Restaurant, Menu, My_Map, Category
 from members.serializers import UserSerializer
 
 class RestaurantSerializer(serializers.ModelSerializer):
@@ -31,7 +31,7 @@ class CategorySerializer(ModelSerializer):
     restaurant = RestaurantSerializer(read_only=True)
 
     class Meta:
-        model = Categories
+        model = Category
         fields = '__all__'
 
 
