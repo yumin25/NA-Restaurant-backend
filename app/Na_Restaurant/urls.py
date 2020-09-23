@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import CreateMyMapAPI, RetrieveMyMapAPI, DestroyMyMapAPI, RetrieveMenuAPI, CreateMenuAPI, DestroyMenuAPI
+from .views import CreateMyMapAPI, RetrieveMyMapAPI, DestroyMyMapAPI, RetrieveMenuAPI, CreateMenuAPI, DestroyMenuAPI, RetrieveRestaurantAPI
 from . import views
 from rest_framework.routers import DefaultRouter
 from django.urls import path, include
@@ -10,6 +10,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('restaurant', views.restaurant_create),
     path('restaurant/<int:pk>', views.restaurant_detail),
+    path('restaurant/<restaurant_region>', RetrieveRestaurantAPI.as_view()),
     path('menu/create/<int:restaurant_id>', CreateMenuAPI.as_view()),
     path('menu/<restaurant_id>', RetrieveMenuAPI.as_view()),
     path('mymap', RetrieveMyMapAPI.as_view()),

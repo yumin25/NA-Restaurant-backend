@@ -9,6 +9,17 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
 
+#동으로 레스토랑 조회
+class RetrieveRestaurantAPI(generics.RetrieveAPIView):
+    queryset = Restaurant.objects.all()
+    serializer = RestaurantSerializer()
+
+    def get(self, request, restaurant_region):
+        queryset = Restaurant.objects.filter(restaurant_region = restaurant_region)
+        serializer = RestaurantSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
 class RestaurantSet(ModelViewSet):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
