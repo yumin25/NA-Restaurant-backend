@@ -5,6 +5,7 @@ from rest_framework import status, permissions, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
+from .models import User
 
 from members.serializers import UserSerializer, CreateUserSerializer, LoginUserSerializer
 
@@ -52,3 +53,23 @@ class UserAPI(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class UpdateUserAPI(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    def get_object(self):
+        return self.request.user
+
+    def patch(self, request, user_region):
+        instance = self.get_object()
+        instance.user_region = user_region
+        instance.save()
+        print(instance)
+
+        serializer = UserSerializer(instance)
+        return Response(serializer.data)

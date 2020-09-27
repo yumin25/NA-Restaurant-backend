@@ -3,8 +3,8 @@ from rest_framework import request
 from rest_framework.response import Response
 
 from rest_framework import status, permissions, generics
-from .serializers import RestaurantSerializer, MenuSerializer, MyMapSerializer, CategorySerializer, CreateMyMapSerializer
-from .models import Restaurant, My_Map, Menu, Category
+from .serializers import RestaurantSerializer, PreviewRestaurantSerializer, MenuSerializer, MyMapSerializer, CategorySerializer, CreateMyMapSerializer, Review_Local_Serializer, Review_Other_Serializer, Create_Review_Local_Serializer, Create_Review_Other_Serializer
+from .models import Restaurant, My_Map, Menu, Category, Review_Local, Review_Other
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
@@ -17,6 +17,17 @@ class RetrieveRestaurantAPI(generics.RetrieveAPIView):
     def get(self, request, restaurant_region):
         queryset = Restaurant.objects.filter(restaurant_region = restaurant_region)
         serializer = RestaurantSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+#레스토랑 preview
+class RetrievePreviewRestaurantAPI(generics.RetrieveAPIView):
+    queryset = Restaurant.objects.all()
+    serializer = PreviewRestaurantSerializer()
+
+    def get(self, request, restaurant_id):
+        queryset = Restaurant.objects.filter(restaurant_id = restaurant_id)
+        serializer = PreviewRestaurantSerializer(queryset, many=True)
         return Response(serializer.data)
 
 
@@ -118,3 +129,46 @@ class DestroyMyMapAPI(generics.DestroyAPIView):
     #def get(self, request):
         #pass
         #serializer_class = CategorySerializer(Categories, many=True)
+
+
+#현지인 리뷰 조회
+class RetrieveLocalReviewAPI(generics.RetrieveAPIView):
+    queryset = Review_Local.objects.all()
+    serializer = Review_Local_Serializer()
+
+    def get(self, request, restaurant_id):
+        queryset = Review_Local.objects.filter(review_restaurant = restaurant_id)
+        serializer = Review_Local_Serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+#외부인 리뷰 조회
+class RetrieveOtherReviewAPI(generics.RetrieveAPIView):
+    queryset = Review_Other.objects.all()
+    serializer = Review_Other_Serializer()
+
+    def get(self, request, restaurant_id):
+        queryset = Review_Other.objects.filter(review_restaurant = restaurant_id)
+        serializer = Review_Other_Serializer(queryset, many=True)
+        return Response(serializer.data)
+
+#리뷰 생성
+class CreateReviewAPI(generics.CreateAPIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    def post(self, request):
+        data = self.request.data.copy()
+        restaurant = data['review_restaurant']
+        queryset = Restaurant.objects.get(restaurant_id = restaurant)
+
+        if self.request.user.user_region == queryset.restaurant_region:
+            serializer_class = Create_Review_Local_Serializer(data=request.data)
+        else:
+            serializer_class = Create_Review_Other_Serializer(data=request.data)
+
+        if serializer_class.is_valid():
+            serializer_class.save(review_user=self.request.user)
+            return Response(serializer_class.data, status.HTTP_201_CREATED)
+        return Response(serializer_class.errors, status.HTTP_400_BAD_REQUEST)

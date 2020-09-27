@@ -71,24 +71,24 @@ class Category(models.Model):
 
 class Review_Local(models.Model):
     review_local_id = models.AutoField(primary_key=True)
-    review_local_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    review_local_menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
-    review_local_restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    review_local_title = models.CharField(max_length=50, blank=False)
-    review_local_text = models.TextField()
-    review_local_date =  models.DateTimeField(default=timezone.now)
-    review_local_star = models.IntegerField(default=5)
+    review_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    review_menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    review_restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    review_title = models.CharField(max_length=50, blank=False)
+    review_text = models.TextField()
+    review_date =  models.DateTimeField(auto_now_add=True)
+    review_star = models.IntegerField(default=5)
 
 
 class Review_Other(models.Model):
     review_other_id = models.AutoField(primary_key=True)
-    review_other_user = models.ForeignKey(User, on_delete=models.CASCADE)
-    review_other_menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
-    review_other_restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    review_other_title = models.CharField(max_length=50, blank=False)
-    review_other_text = models.TextField()
-    review_other_date =  models.DateTimeField(default=timezone.now)
-    review_other_star = models.IntegerField(default=5)
+    review_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    review_menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    review_restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    review_title = models.CharField(max_length=50, blank=False)
+    review_text = models.TextField()
+    review_date =  models.DateTimeField(auto_now_add=True)
+    review_star = models.IntegerField(default=5)
 
 
 class Franchise(models.Model):

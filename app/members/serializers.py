@@ -9,6 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
             'username',
             'email',
             'nickname',
+            'user_region',
         )
 
 

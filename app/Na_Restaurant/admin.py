@@ -26,10 +26,10 @@ class Category_Admin(admin.ModelAdmin):
     list_display = ['restaurant', 'food_category', 'currency_category']
 
 class Review_Local_Admin(admin.ModelAdmin):
-    list_display = ['review_local_id', 'review_local_user', 'review_local_restaurant', 'review_local_menu', 'review_local_title', 'review_local_date', 'review_local_star', 'review_local_text']
+    list_display = ['review_local_id', 'review_user', 'review_menu', 'review_restaurant', 'review_title', 'review_text', 'review_date', 'review_star']
 
 class Review_Other_Admin(admin.ModelAdmin):
-    list_display = ['review_other_id', 'review_other_user', 'review_other_restaurant', 'review_other_menu', 'review_other_title', 'review_other_date', 'review_other_star', 'review_other_text']
+    list_display = ['review_other_id', 'review_user', 'review_menu', 'review_restaurant', 'review_title', 'review_text', 'review_date', 'review_star']
 
 admin.site.register(Restaurant, RestaurantAdmin)
 admin.site.register(My_Map, My_Map_Admin)
